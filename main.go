@@ -4,130 +4,41 @@ import (
 	"image"
 	"image/color"
 	"image/png"
-	"log"
+	"math"
 	"os"
-	"runtime"
-
-	"github.com/go-gl/gl/v2.1/gl"
-	"github.com/go-gl/glfw/v3.2/glfw"
-	"github.com/llgcode/draw2d"
-	"github.com/llgcode/draw2d/draw2dgl"
-	"github.com/llgcode/draw2d/draw2dkit"
+	"strconv"
 )
 
-// GimmeImage returns an image
-func GimmeImage(offset int64) image.Image {
-	// Create an 100 x 100 image
-	img := image.NewRGBA(image.Rect(0, 0, 100, 100))
-	// Draw a red dot at (2, 3)
-	img.Set(2, 3, color.RGBA{255, 0, 0, 255})
-	return img
+// GimmeImages returns an image
+func GimmeImages(offset float64, curTarget float64) {
+	iCurTarget := int(curTarget)
+	numOfGrey := 2.0
+
+	dirName := "results/" + strconv.FormatFloat(curTarget, 'f', -1, 64)
+	os.Mkdir(dirName, os.ModePerm)
+	// All the possibilities
+	alef := math.Pow(numOfGrey, curTarget*curTarget)
+	for i := offset; i < alef; i++ {
+		img := image.NewRGBA(image.Rect(0, 0, iCurTarget, iCurTarget))
+		for px := 0; px < iCurTarget*iCurTarget; px++ {
+			x := px / iCurTarget
+			y := px % iCurTarget
+			img.Set(x, y, color.RGBA{255, 0, 0, 255})
+		}
+		fileName := dirName + strconv.FormatFloat(i, 'f', -1, 64) + ".png"
+
+		SaveImage(img, fileName)
+	}
 }
 
 // SaveImage saves image as PNG
 func SaveImage(img image.Image, path string) {
-	// Save to out.png
 	f, _ := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0600)
 	defer f.Close()
 	png.Encode(f, img)
 }
 
-//------------------------------------------------------------------------------------
-
-// Open an OpenGl window and display a rectangle using a OpenGl GraphicContext
-
-var (
-	// global rotation
-	rotate        int
-	width, height int
-	redraw        = true
-	font          draw2d.FontData
-)
-
-func reshape(window *glfw.Window, w, h int) {
-	gl.ClearColor(1, 1, 1, 1)
-	/* Establish viewing area to cover entire window. */
-	gl.Viewport(0, 0, int32(w), int32(h))
-	/* PROJECTION Matrix mode. */
-	gl.MatrixMode(gl.PROJECTION)
-	/* Reset project matrix. */
-	gl.LoadIdentity()
-	/* Map abstract coords directly to window coords. */
-	gl.Ortho(0, float64(w), 0, float64(h), -1, 1)
-	/* Invert Y axis so increasing Y goes down. */
-	gl.Scalef(1, -1, 1)
-	/* Shift origin up to upper-left corner. */
-	gl.Translatef(0, float32(-h), 0)
-	gl.Enable(gl.BLEND)
-	gl.BlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
-	gl.Disable(gl.DEPTH_TEST)
-	width, height = w, h
-	redraw = true
-}
-
-// Ask to refresh
-func invalidate() {
-	redraw = true
-}
-
-func display() {
-	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-
-	gl.LineWidth(1)
-	gc := draw2dgl.NewGraphicContext(width, height)
-	gc.SetFontData(draw2d.FontData{
-		Name:   "luxi",
-		Family: draw2d.FontFamilyMono,
-		Style:  draw2d.FontStyleBold | draw2d.FontStyleItalic})
-
-	gc.BeginPath()
-	draw2dkit.RoundedRectangle(gc, 200, 200, 600, 600, 100, 100)
-
-	gc.SetFillColor(color.RGBA{0, 0, 0, 0xff})
-	gc.Fill()
-
-	gl.Flush() /* Single buffered, so needs a flush. */
-}
-
-func init() {
-	runtime.LockOSThread()
-}
-
 func main() {
-	err := glfw.Init()
-	if err != nil {
-		panic(err)
-	}
-	defer glfw.Terminate()
-	width, height = 800, 800
-	window, err := glfw.CreateWindow(width, height, "Show RoundedRect", nil, nil)
-	if err != nil {
-		panic(err)
-	}
-
-	window.MakeContextCurrent()
-	window.SetSizeCallback(reshape)
-	window.SetCharCallback(onChar)
-
-	glfw.SwapInterval(1)
-
-	err = gl.Init()
-	if err != nil {
-		panic(err)
-	}
-
-	reshape(window, width, height)
-	for !window.ShouldClose() {
-		if redraw {
-			display()
-			window.SwapBuffers()
-			redraw = false
-		}
-		glfw.PollEvents()
-		//		time.Sleep(2 * time.Second)
-	}
-}
-
-func onChar(w *glfw.Window, char rune) {
-	log.Println(char)
+	curTarget := 2.0
+	GimmeImages(0, curTarget)
 }
