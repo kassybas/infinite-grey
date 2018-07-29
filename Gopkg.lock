@@ -3,51 +3,13 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/go-gl/gl"
-  packages = ["v2.1/gl"]
-  revision = "68e2537930806bfcee1b92a0e14b4e9b8bb3a3e3"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/go-gl/glfw"
-  packages = ["v3.1/glfw"]
-  revision = "46a8d530c3268b31eeb1310f30fe42be1cae98f2"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/golang/freetype"
-  packages = [
-    "raster",
-    "truetype"
-  ]
-  revision = "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/llgcode/draw2d"
-  packages = [
-    ".",
-    "draw2dbase",
-    "draw2dgl",
-    "draw2dimg",
-    "draw2dkit"
-  ]
-  revision = "274031cf2abe8acd15c4a911e1f7f1295fc4830c"
-
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/image"
-  packages = [
-    "draw",
-    "font",
-    "math/f64",
-    "math/fixed"
-  ]
-  revision = "c73c2afc3b812cdd6385de5a50616511c4a3d458"
+  name = "github.com/nfnt/resize"
+  packages = ["."]
+  revision = "83c6a9932646f83e3267f353373d47347b6036b2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e0d69227e96b21c8235b2f3f416abd3cb5732a94e5a0e58144d02709b8ed145c"
+  inputs-digest = "91a836fd58a7f832001f0cbcadf9732e2314f8af4cce744ebae11772f8e824db"
   solver-name = "gps-cdcl"
   solver-version = 1
