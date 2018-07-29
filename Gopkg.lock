@@ -4,12 +4,12 @@
 [[projects]]
   branch = "master"
   name = "github.com/go-gl/glfw"
-  packages = ["v3.2/glfw"]
+  packages = ["v3.1/glfw"]
   revision = "46a8d530c3268b31eeb1310f30fe42be1cae98f2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e636ab734115ccc71aa0a0e401c93bdb6cc96dcc2e3a495c7f803c0b9f05dd26"
+  inputs-digest = "6dd53f588471e3006dc3e9e9ae0739e34569db9fa2448a987a2f27ebbd01d621"
   solver-name = "gps-cdcl"
   solver-version = 1

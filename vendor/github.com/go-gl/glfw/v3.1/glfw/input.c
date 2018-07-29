@@ -1,9 +1,5 @@
 #include "_cgo_export.h"
 
-void glfwJoystickCB(int joy, int event) {
-	goJoystickCB(joy, event);
-}
-
 void glfwMouseButtonCB(GLFWwindow* window, int button, int action, int mods) {
 	goMouseButtonCB(window, button, action, mods);
 }
@@ -34,10 +30,6 @@ void glfwCharModsCB(GLFWwindow* window, unsigned int character, int mods) {
 
 void glfwDropCB(GLFWwindow* window, int count, const char **names) {
 	goDropCB(window, count, (char**)names);
-}
-
-void glfwSetJoystickCallbackCB() {
-	glfwSetJoystickCallback(glfwJoystickCB);
 }
 
 void glfwSetKeyCallbackCB(GLFWwindow *window) {
